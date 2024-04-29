@@ -1,0 +1,96 @@
+import pygame
+from costant import *
+
+class Piece:
+	def __init__(self, Square, image, type, row,col):
+		self.Square = Square
+		self.image = image
+		self.row = row
+		self.col = col
+		self.type = type
+		self.x = 0
+		self.y = 0
+		self.available_moves = []
+		self.calc_pos()
+		
+	def piece_move(self,row,col):
+		self.row = row
+		self.col = col
+		self.calc_pos()
+			
+	def calc_pos(self):
+		self.x = self.col*self.Square
+		self.y = self.row*self.Square
+		
+	def clear_available_moves(self):
+		if len(self.available_moves) > 0:
+			self.available_moves = []
+				
+class Image(Piece):
+
+
+	def __init__(self, Square, image, type, row, col):
+ 		super().__init__(Square, image, type, row, col)
+ 		
+	def get_available_moves(self, row, col, Board):
+		self.clear_available_moves()
+		
+		if row-1>=0:
+			if Board[row-1][col].image != self.image:
+				if col-1>=0 and col+1<len(Board):
+					if Board[row-1][col-1].image == Board[row-1][col+1].image:
+						if Board[row-1][col-1].image == Board[row][col].image:
+							Board[row][col].image, Board[row-1][col].image = Board[row-1][col].image, Board[row][col].image	
+				if col+1<len(Board) and col+2<len(Board):		
+					if Board[row-1][col+1].image == Board[row-1][col+2].image:
+						
+						self.availables_move.append((row-1,col))
+				if col-2>=0:		
+					if Board[row-1][col-2].image == Board[row-1][col-1].image:
+						self.availables_move.append((row-1,col))
+		if row+1<len(Board):
+			
+			if Board[row+1][col].image != self.image:
+				if col-1>=0 and col+1<len(Board):
+					if Board[row+1][col+1].image == Board[row+1][col-1].image: 
+						self.available_moves.append((row+1,col))
+				if col+1<len(Board) and col+2<len(Board):		
+					if Board[row+1][col+1].image == Board[row+1][col+2].image:
+						self.available_moves.append((row+1,col))
+				if col-2>=0:		
+					if Board[row+1][col-2].image == Board[row+1][col-1].image:
+						self.available_moves.append((row+1,col))
+		if col-1>=0:
+			
+			if Board[row][col-1].image != self.image:
+				if row-1>=0 and row+1<len(Board):
+					if Board[row-1][col-1].image == Board[row+1][col-1].image: 
+						self.available_moves.append((row,col-1))
+				if row+2<len(Board):		
+					if Board[row+1][col-1].image == Board[row+2][col-1].image:
+						self.available_moves.append((row,col-1))
+				if row-2>=0:		
+					if Board[row-1][col-1].image == Board[row-2][col-1].image:
+						self.available_moves.append((row,col-1))
+						
+								
+		if col+1<len(Board):
+			
+			if Board[row][col+1].image != self.image:
+				if row-1>=0 and row+1<len(Board):
+					if Board[row-1][col+1].image == Board[row+1][col+1].image: 
+						self.available_moves.append((row,col+1))
+				if row+2<len(Board):		
+					if Board[row+1][col+1].image == Board[row+2][col+1].image:
+						self.available_moves.append((row,col+1))
+				if row-2>=0:		
+					if Board[row-1][col+1].image == Board[row-2][col+1].image:
+						self.available_moves.append((row,col+1))	
+							
+		return self.available_moves
+					
+				
+					
+
+						
+					 
